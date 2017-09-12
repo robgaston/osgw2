@@ -12,7 +12,7 @@ layout: true
 class: impact
 
 # {{title}}, Day 1
-## July 12, GIS Education Center, Galvanize
+## Sept. 12, GIS Education Center, CCSF Mission Campus
 
 ---
 
@@ -48,6 +48,8 @@ We're going to focus on a hands-on approach to learning the basics of:
 
 - Leaflet (JavaScript mapping library)
 
+- TurfJS (JavaScript geospatial processing library)
+
 ---
 
 ## This workshop won't be:
@@ -64,13 +66,11 @@ A thorough academic explanation of GIS or related concepts.  We're not going to 
 
 ...but we're going to try to keep things simple and easy, so don't worry if you're not an expert - some basic comfort and confidence will suffice.
 
-We're also going to focus solely on a developer environment - we simply won't have time to talk about production/cloud deployment.
-
 ---
 
 ## As we're working...
 
-- these slides are viewable at [http://rgaston.com/osgw/](http://rgaston.com/osgw/)
+- these slides are viewable at [http://rgaston.com/osgw2/](http://rgaston.com/osgw2/)
 
 - you are encouraged to follow along on your laptop
 
@@ -249,8 +249,6 @@ On your laptop, please do the following:
     
     1. confirm PostGIS is enabled on your database
 
-1. (optional) install [QGIS](http://www.qgis.org/en/site/forusers/download.html) if you want to quickly visualize your PostGIS tables on a map
-
 1. **extra credit**: if you finish early (or already have these installed), find someone who is still working and help them along
 
 ---
@@ -363,93 +361,35 @@ class: impact
 
 class: impact
 
-# Part 3: Intro to GeoServer
+# Part 3: Visualizing PostGIS data on desktop
 
 ---
 
-## What is GeoServer?
+## PostGIS and desktop
 
-[GeoServer](http://geoserver.org/) is an open source tool for serving up geospatial data that:
+- like most spatially-enabled RDBMS, PostgreSQL is supported by most desktop platforms (in one way or another)
 
-- allows you to create and style "layers" that are served up using open standards for serving raster or vector data
+- since we are focused on open-source tools, we're going to use [QGIS](http://www.qgis.org/en/site/forusers/download.html)
 
-- will connect to many different data sources, such as:
-    
-    - PostGIS
-    
-    - Shapefiles
-    
-    - Oracle*
-    
-    - MySQL*
-    
-    - ArcSDE*
-
-** requires installing an [extension](http://docs.geoserver.org/latest/en/user/data/database/index.html#data-database) for GeoServer*
+- [QGIS](http://www.qgis.org/en/site/forusers/download.html) is a powerful free and open-source desktop GIS that makes visualizing PostGIS data simple
 
 ---
 
-## Why do I need services using open standards?
+## PostgreSQL Views
 
-- Using open standards means that GeoServer services can be consumed by many different clients, from traditional desktop GIS to web applications
+- PostgreSQL (like any RDBMS) allows us to create [views](https://en.wikipedia.org/wiki/View_%28SQL%29)
 
-- There are lots of web-based mapping tools that will consume the open standards used by GeoServer, such as:
+- database views are entities that can store queries and return their results
 
-    - [OpenLayers](https://openlayers.org/)
-    
-    - [ArcGIS Online](https://www.arcgis.com/home/index.html)
-    
-    - [Mapbox GL](https://www.mapbox.com/mapbox-gl-js/api/)
-    
-    - [Google Earth](https://www.google.com/earth/)
-    
-    - [Leaflet](http://leafletjs.com/) (which we will be using in Day 2 of this workshop)
+- you can select from views just as you would from a database table
 
----
-
-## Installing, running and configuring GeoServer
-
-- To install GeoServer, get the correct installer for your OS [here](http://geoserver.org/release/stable/)
-
-- After installing, you will need to open the application and start the server
-
-    - the server can be started from the menu by selecting "Server" > "Start"
-    
-    - by default, the server will be running at [http://localhost:8080/geoserver/](http://localhost:8080/geoserver/)
-    
-- Once the server is started, you can configure GeoServer using the built in web interface:
-
-    - you can access the web interface by going to: [http://localhost:8080/geoserver/web/](http://localhost:8080/geoserver/web/)
-    
-    - you'll need to login to administer the server; the default username is "admin" and the default password is "geoserver"
-    
-    - in a production environment, you would always want to change the default admin password before going live to the world.
-
----
-
-## Adding layers to GeoServer
-
-- Before you can add layers, you will need to connect your data source as a new "Data Store"
-
-    - Go to "Stores" > "Add a new Store" and follow the instructions for your data source type
-    
-    - Once added, you will see a list of layers available on the Data Store and an option to publish
-    
-- Each layer that you want to serve up must be published and configured using the "Add Layer" page
-    
-    - you must generate a "Native Bounding Box" and "Lat/Lon Bounding Box" before you can publish a layer, which should generally be done from the data itself for the best performance
-    
-    - you can select styles to apply to your layer from "Publishing" tab of the "Add Layer" page
-    
-- Once added, you can preview the layer from "Layer Preview" section
-
-- Layer styles use the [StyledLayerDescriptor](http://www.opengeospatial.org/standards/sld) standard, new styles can be added from the "Styles" section (you can use the [Geoserver SLD cookbook](http://docs.geoserver.org/stable/en/user/styling/sld/cookbook/) as a guide)
+- QGIS allows you to create layers from PostGIS views, which is a nice way to visualize the result of spatial queries
 
 ---
 
 class: impact
 
-## Demo: Starting GeoServer and creating a layer from a shapefile
+## Demo: Creating a PostgreSQL view, visualizing in QGIS
 
 ---
 
@@ -459,25 +399,23 @@ class: impact
 
 ---
 
-## Ex. 3: GeoServer install and basic configuration
+## Ex. 4: Visualizing PostGIS layers in QGIS
 
 On your laptop, do the following:
 
-1. install GeoServer 2.11.1
+1. install [QGIS](http://www.qgis.org/en/site/forusers/download.html)
 
-1. start GeoServer
+1. create a new view in PostgreSQL using the join query that we wrote in [Ex. 2](#31)
 
-1. confirm that the server is running by accessing the web interface
+1. start QGIS, and:
 
-1. using the GeoServer web interface:
-
-    1. create a layer using the countries shapefile
+    1. create a new connection pointing to your local database
     
-    1. preview your countries shapefile layer
+    1. add a "countries" layer from the view that you created above
 
-1. **extra credit 1**: create a new style in GeoServer for your countries layer, and edit it to use that style
+1. **extra credit 1**: restyle your "countries" layer in QGIS 
 
-1. **extra credit 2**: find another shapefile that interests you, publish it as a layer and create a new style to render you layer in an interesting way.
+1. **extra credit 2**: add a layer using another PostGIS table or view; restyle that layer
 
 ---
 
@@ -485,19 +423,16 @@ On your laptop, do the following:
 
 In the time between now and Day 2 of the workshop (July 31), please do the following:
 
-1. find a shapefile containing data that you would like to load into PostgreSQL/GeoServer
+1. find a shapefile containing data that you would like to load into PostgreSQL
 
 1. load your shapefile into a PostgreSQL table
 
-1. create a layer in GeoServer using your **shapefile** (we're going to get into connecting to PostgreSQL next time)
-
-1. restyle your layer using the GeoServer web interface
+1. visualize and style your PostGIS table in QGIS
 
 ---
 class: impact
 
-# Thanks - see you on July 31!
+# Thanks - see you on Sept. 19!
 
-...next time: connecting GeoServer to PostgreSQL and viewing data in your own web map...
+...next time: connecting GeoServer to PostgreSQL and viewing data on the web...
 
-[day 2 slides](day-2.html)

@@ -73,6 +73,125 @@ class: impact
 --
 
 - if anyone does not have a text editor installed already, let's take care of that now...
+---
+
+class: impact
+
+# Part 3: Intro to GeoServer
+
+---
+
+## What is GeoServer?
+
+[GeoServer](http://geoserver.org/) is an open source tool for serving up geospatial data that:
+
+- allows you to create and style "layers" that are served up using open standards for serving raster or vector data
+
+- will connect to many different data sources, such as:
+    
+    - PostGIS
+    
+    - Shapefiles
+    
+    - Oracle*
+    
+    - MySQL*
+    
+    - ArcSDE*
+
+** requires installing an [extension](http://docs.geoserver.org/latest/en/user/data/database/index.html#data-database) for GeoServer*
+
+---
+
+## Why do I need services using open standards?
+
+- Using open standards means that GeoServer services can be consumed by many different clients, from traditional desktop GIS to web applications
+
+- There are lots of web-based mapping tools that will consume the open standards used by GeoServer, such as:
+
+    - [OpenLayers](https://openlayers.org/)
+    
+    - [ArcGIS Online](https://www.arcgis.com/home/index.html)
+    
+    - [Mapbox GL](https://www.mapbox.com/mapbox-gl-js/api/)
+    
+    - [Google Earth](https://www.google.com/earth/)
+    
+    - [Leaflet](http://leafletjs.com/) (which we will be using in Day 2 of this workshop)
+
+---
+
+## Installing, running and configuring GeoServer
+
+- To install GeoServer, get the correct installer for your OS [here](http://geoserver.org/release/stable/)
+
+- After installing, you will need to open the application and start the server
+
+    - the server can be started from the menu by selecting "Server" > "Start"
+    
+    - by default, the server will be running at [http://localhost:8080/geoserver/](http://localhost:8080/geoserver/)
+    
+- Once the server is started, you can configure GeoServer using the built in web interface:
+
+    - you can access the web interface by going to: [http://localhost:8080/geoserver/web/](http://localhost:8080/geoserver/web/)
+    
+    - you'll need to login to administer the server; the default username is "admin" and the default password is "geoserver"
+    
+    - in a production environment, you would always want to change the default admin password before going live to the world.
+
+---
+
+## Adding layers to GeoServer
+
+- Before you can add layers, you will need to connect your data source as a new "Data Store"
+
+    - Go to "Stores" > "Add a new Store" and follow the instructions for your data source type
+    
+    - Once added, you will see a list of layers available on the Data Store and an option to publish
+    
+- Each layer that you want to serve up must be published and configured using the "Add Layer" page
+    
+    - you must generate a "Native Bounding Box" and "Lat/Lon Bounding Box" before you can publish a layer, which should generally be done from the data itself for the best performance
+    
+    - you can select styles to apply to your layer from "Publishing" tab of the "Add Layer" page
+    
+- Once added, you can preview the layer from "Layer Preview" section
+
+- Layer styles use the [StyledLayerDescriptor](http://www.opengeospatial.org/standards/sld) standard, new styles can be added from the "Styles" section (you can use the [Geoserver SLD cookbook](http://docs.geoserver.org/stable/en/user/styling/sld/cookbook/) as a guide)
+
+---
+
+class: impact
+
+## Demo: Starting GeoServer and creating a layer from a shapefile
+
+---
+
+class: impact
+
+## Hands-on Exercise
+
+---
+
+## Ex. 3: GeoServer install and basic configuration
+
+On your laptop, do the following:
+
+1. install GeoServer 2.11.1
+
+1. start GeoServer
+
+1. confirm that the server is running by accessing the web interface
+
+1. using the GeoServer web interface:
+
+    1. create a layer using the countries shapefile
+    
+    1. preview your countries shapefile layer
+
+1. **extra credit 1**: create a new style in GeoServer for your countries layer, and edit it to use that style
+
+1. **extra credit 2**: find another shapefile that interests you, publish it as a layer and create a new style to render you layer in an interesting way.
 
 ---
 
