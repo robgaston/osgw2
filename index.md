@@ -13,6 +13,7 @@ class: impact
 
 # {{title}}, Day 1
 ## Sept. 12, GIS Education Center, CCSF Mission Campus
+![diagram](https://image.ibb.co/jFmvpF/OSGW_Diagram.png)
 
 ---
 
